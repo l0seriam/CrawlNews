@@ -1,0 +1,3 @@
+Practice : Viết 1 mini crawler utility library để crawl và bóc tách data từ vnexpress, vietnamnet, dantri (sử dụng curl, ko sử dụng thư viện khác) -> mục đích để luyện tư duy về tổ chức code OOP
++ Bao gồm 1 base class Parser define các shared methods, common properties, class con cho VnexpressParser, VietnarserParser, DantriParser (some other utility classes for DB, CURL wrapper,....)
++ Viết 1 test script để demo các chức năng (input URL của trang article detail cua vnexpress hoặc vietnamnet/dantri -> bóc tách thông tin title, content và date lưu vào database)
