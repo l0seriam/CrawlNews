@@ -3,6 +3,7 @@
 abstract class Parser
 {
     // Function to make GET request using cURL
+    public $domString;
     function curlGet($url)
     {
         $ch = curl_init();    // Khoi tao cURL session
@@ -44,5 +45,31 @@ abstract class Parser
         if ($result) echo '<script>alert("thành công !!!");</script>;';
         else echo '<script>alert("thất bại ' . $sql . '!!!");</script>;';
     }
-    abstract public function articleParser($url);
+    public function articleParserr($url)
+    {
+        $articlePage = $this->curlGet($url);
+        $finder = $this->returnXPathObject($articlePage);
+        print_r($this->domString);
+        $title = $finder->query($this->domString['title'])->item(0); // xpath lay DOM tieu de
+        $description = $finder->query($this->domString['description'])->item(0); // xpath lay DOM doan van ngan
+        $date = $finder->query($this->domString['date'])->item(0); // xpath lay DOM ngay thang
+        $category = $finder->query($this->domString['category'])->item(0); // xpath lay DOM the loai
+        $content = $finder->query($this->domString['content']); // xpath lay DOM content
+
+        // khoi tao mang data
+        $data = array();
+        $data['title'] = trim($title->textContent);
+        $data['description'] = trim($description->textContent);
+        $data['date'] = trim($date->textContent);
+        $data['category'] = trim($category->textContent);
+        $data['content'] = '';
+        foreach ($content as $item) {
+            $nodes = $item->childNodes;
+            foreach ($nodes as $node) {
+                $data['content'] = $data['content'] . trim($node->nodeValue) . "\n";
+            }
+        }
+        $this->insertToDB($this->website, $data['title'], $data['category'], $data['description'], $data['content'], $data['date']);
+    }
+    // abstract public function articleParser($url);
 }
