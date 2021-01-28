@@ -49,7 +49,6 @@ abstract class Parser
     {
         $articlePage = $this->curlGet($url);
         $finder = $this->returnXPathObject($articlePage);
-        print_r($this->domString);
         $title = $finder->query($this->domString['title'])->item(0); // xpath lay DOM tieu de
         $description = $finder->query($this->domString['description'])->item(0); // xpath lay DOM doan van ngan
         $date = $finder->query($this->domString['date'])->item(0); // xpath lay DOM ngay thang
